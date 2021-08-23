@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
-import './itemList.css';
+import styled from "styled-components";
+
 export default class ItemList extends Component {
 
     render() {
+        const ItemList = styled.ul`
+          li {
+            cursor: pointer;
+          }
+        `;
         return (
-            <ul className="item-list list-group">
+            <ItemList className="item-list list-group">
                 <li className="list-group-item">
                     John Snow
                 </li>
@@ -14,7 +20,7 @@ export default class ItemList extends Component {
                 <li className="list-group-item">
                     Geremy
                 </li>
-            </ul>
+            </ItemList>
         );
     }
 }
