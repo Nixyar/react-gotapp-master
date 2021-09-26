@@ -55,7 +55,7 @@ export default class Header extends Component {
                 </HeaderTitle>
                 <HeaderLinks>
                     <li>
-                        <button type={'button'} onClick={onRandomCharacter}>{isLookChar ? 'Скрыть' : 'Показать'} случайного персонажа</button>
+                        <button type={'button'} onClick={onRandomCharacter}>{isLookChar ? 'Hide' : 'Look'} random character</button>
                     </li>
                     <li>
                         <a href="#">Characters</a>
