@@ -1,4 +1,4 @@
-class GotService {
+export class GotService {
     constructor() {
         this._apiUrl = 'https://www.anapioficeandfire.com/api/'
     }
@@ -12,12 +12,14 @@ class GotService {
         return await res.json();
     }
 
-    getCharacter(id) {
-        return this.getResource(`/characters/${id}`);
+    async getCharacter(id) {
+        const char = await this.getResource(`/characters/${id}`);
+        return this._transformChar(char);
     }
 
-    getAllCharacters() {
-        return this.getResource('/characters');
+    async getAllCharacters() {
+        const res = this.getResource('/characters');
+        return res.map(this._transformChar);
     }
 
     getAllBooks() {
@@ -27,12 +29,14 @@ class GotService {
     getAllHouses() {
         return this.getResource('/houses');
     }
+
+    _transformChar(char) {
+        return {
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture,
+        };
+    }
 }
-
-
-const got = new GotService();
-
-got.getCharacter('123').then(res => console.log(res));
-got.getAllCharacters().then(res => console.log(res));
-got.getAllBooks().then(res => console.log(res));
-got.getAllHouses().then(res => console.log(res));

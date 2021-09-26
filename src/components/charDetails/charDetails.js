@@ -13,11 +13,11 @@ export default class CharDetails extends Component {
             text-align: center;
           }
         `;
-        const SelectError = styled.div`
-          color: #fff;
-          text-align: center;
-          font-size: 26px;
-        `;
+        // const SelectError = styled.div`
+        //   color: #fff;
+        //   text-align: center;
+        //   font-size: 26px;
+        // `;
 
         return (
             <CharacterBlock className="rounded">
