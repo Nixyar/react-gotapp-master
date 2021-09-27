@@ -18,7 +18,8 @@ export class GotService {
     }
 
     async getAllCharacters() {
-        const res = this.getResource('/characters');
+        const generateIdPage = Math.floor(Math.random() * 140 + 2);
+        const res = await this.getResource(`/characters?page=${generateIdPage}&pageSize=5`);
         return res.map(this._transformChar);
     }
 
@@ -32,11 +33,12 @@ export class GotService {
 
     _transformChar(char) {
         return {
-            name: char.name,
-            gender: char.gender,
-            born: char.born,
-            died: char.died,
-            culture: char.culture,
+            url: char.url,
+            name: char.name || 'Unknown',
+            gender: char.gender || 'Unknown',
+            born: char.born || 'Unknown',
+            died: char.died || 'Unknown',
+            culture: char.culture || 'Unknown',
         };
     }
 }
