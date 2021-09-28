@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
-import styled from "styled-components";
-import {GotService} from "../../services/gotSerivce";
-import {Spinner} from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage";
+import {Spinner} from "../../shared/spinner/Spinner";
+import ErrorMessage from "../../shared/errorMessage";
+import {RandomBlock} from "./styles";
 
 export default class RandomChar extends Component {
+    state = {
+        char: null,
+        isLoading: true,
+        isError: false
+    }
+
     componentDidMount() {
         this.updateChar();
         this.timer = setInterval(() => {
@@ -16,17 +21,9 @@ export default class RandomChar extends Component {
         clearInterval(this.timer);
     }
 
-    gotService = new GotService();
-
-    state = {
-        char: {},
-        isLoading: true,
-        isError: false
-    }
-
     onCharLoaded = (char) => {
-        this.setState({isLoading: false});
         this.setState({char});
+        this.setState({isLoading: false});
     }
 
     onError = () => {
@@ -35,34 +32,19 @@ export default class RandomChar extends Component {
 
     updateChar() {
         const id = Math.floor(Math.random() * 140 + 10);
-        this.gotService.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
+        this.props.gotData.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
     }
 
     render() {
-        const RandomBlock = styled.div`
-          width: 100%;
-          background-color: #fff;
-          padding: 25px 25px 15px 25px;
-          margin-bottom: 40px;
-
-          h4 {
-            margin-bottom: 20px;
-            text-align: center;
-          }
-
-          .term {
-            font-weight: bold;
-          }
-        `;
         const {char, isLoading, isError} = this.state;
         const errorMessage = isError ? <ErrorMessage errorText={'Error loading random character'}/> : null;
         const spinner = isLoading ? <Spinner/> : null;
         const content = !(isLoading || isError) ? <RandomContent char={char}/> : null;
         return (
             <RandomBlock className="rounded">
-                {content}
                 {spinner}
                 {errorMessage}
+                {content}
             </RandomBlock>
         );
     }
