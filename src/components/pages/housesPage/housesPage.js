@@ -3,8 +3,11 @@ import ItemList from "../../../shared/itemList";
 import ItemDetails, {Field} from "../../../shared/itemDetails";
 import ErrorMessage from "../../../shared/errorMessage";
 import InfoRowBlock from "../../../shared/infoRowBlock";
+import {GotService} from "../../../services/gotSerivce";
 
 export default class HousesPage extends Component {
+    gotService = new GotService();
+
     state = {
         selectHouseId: null,
         isError: false
@@ -20,20 +23,19 @@ export default class HousesPage extends Component {
 
     render() {
         const {selectHouseId} = this.state;
-        const {gotData} = this.props;
 
         if (this.state.isError) {
             return <ErrorMessage errorText={'Произошла ошибка при загрузке данных'}/>
         }
 
         const itemList = (
-            <ItemList gotData={gotData.getAllHouses()}
+            <ItemList gotData={this.gotService.getAllHouses()}
                       onSelectItem={this.onSelectItem}
                       renderItem={(item) => item.name}/>
         );
 
         const itemDetails = (
-            <ItemDetails gotData={selectHouseId ? gotData.getHouse(selectHouseId) : null}
+            <ItemDetails gotData={selectHouseId ? this.gotService.getHouse(selectHouseId) : null}
                          itemId={selectHouseId}>
                 <Field field={'coatOfArms'} label={''}/>
                 <Field field={'region'} label={'Region'}/>
