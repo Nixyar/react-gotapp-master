@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import {Spinner} from "../../shared/spinner/Spinner";
 import ErrorMessage from "../../shared/errorMessage";
 import {RandomBlock} from "./styles";
+import {GotService} from "../../services/gotSerivce";
 
 export default class RandomChar extends Component {
+    gotService = new GotService();
+
     state = {
         char: null,
         isLoading: true,
@@ -32,7 +35,7 @@ export default class RandomChar extends Component {
 
     updateChar() {
         const id = Math.floor(Math.random() * 140 + 10);
-        this.props.gotData.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
+        this.gotService.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
     }
 
     render() {

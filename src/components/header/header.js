@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {HeaderBlock, HeaderLinks, HeaderTitle} from "./styles";
+import {Link} from "react-router-dom";
 
 export default class Header extends Component {
     render() {
@@ -7,22 +8,22 @@ export default class Header extends Component {
         return (
             <HeaderBlock>
                 <HeaderTitle>
-                    <a href="#">
+                    <Link to={'/'}>
                         Game of Thrones DB
-                    </a>
+                    </Link>
                 </HeaderTitle>
                 <HeaderLinks>
                     <li>
                         <button type={'button'} onClick={onRandomCharacter}>{isLookChar ? 'Hide' : 'Look'} random character</button>
                     </li>
                     <li>
-                        <a href="#">Characters</a>
+                        <Link to={'/characters'}>Characters</Link>
                     </li>
                     <li>
-                        <a href="#">Houses</a>
+                        <Link to={'/houses'}>Houses</Link>
                     </li>
                     <li>
-                        <a href="#">Books</a>
+                        <Link to={'/books/'}>Books</Link>
                     </li>
                 </HeaderLinks>
             </HeaderBlock>
