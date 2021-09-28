@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {Col, Row} from "reactstrap";
 import ItemList from "../../../shared/itemList";
 import ItemDetails, {Field} from "../../../shared/itemDetails";
-import RandomChar from "../../randomChar";
 import ErrorMessage from "../../../shared/errorMessage";
 import InfoRowBlock from "../../../shared/infoRowBlock";
 
@@ -21,8 +19,8 @@ export default class HousesPage extends Component {
     }
 
     render() {
-        const {isLookBlockRandomCharacter, gotData} = this.props;
-        const RandomCharBlock = isLookBlockRandomCharacter ? <RandomChar gotData={gotData}/> : null;
+        const {selectHouseId} = this.state;
+        const {gotData} = this.props;
 
         if (this.state.isError) {
             return <ErrorMessage errorText={'Произошла ошибка при загрузке данных'}/>
@@ -35,8 +33,8 @@ export default class HousesPage extends Component {
         );
 
         const itemDetails = (
-            <ItemDetails gotData={this.state.selectHouseId ? gotData.getHouse(this.state.selectHouseId) : null}
-                         itemId={this.state.selectHouseId}>
+            <ItemDetails gotData={selectHouseId ? gotData.getHouse(selectHouseId) : null}
+                         itemId={selectHouseId}>
                 <Field field={'coatOfArms'} label={''}/>
                 <Field field={'region'} label={'Region'}/>
             </ItemDetails>
@@ -44,11 +42,6 @@ export default class HousesPage extends Component {
 
         return (
             <>
-                <Row>
-                    <Col lg={{size: 5, offset: 0}}>
-                        {RandomCharBlock}
-                    </Col>
-                </Row>
                 <InfoRowBlock leftBlock={itemList} rightBlock={itemDetails}/>
             </>
         );

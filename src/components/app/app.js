@@ -4,10 +4,9 @@ import CharacterPage from "../pages/characterPage";
 import {Container} from "./styles";
 import {GotService} from "../../services/gotSerivce";
 import {Col, Row} from "reactstrap";
-import ItemList from "../../shared/itemList";
-import ItemDetails from "../../shared/itemDetails";
 import BooksPage from "../pages/booksPage";
 import HousesPage from "../pages/housesPage";
+import RandomChar from "../randomChar";
 
 export default class App extends Component {
     gotService = new GotService();
@@ -23,15 +22,22 @@ export default class App extends Component {
             this.setState({isViewBlockRandomCharacter: !isViewBlockRandomCharacter});
         }
 
+        const RandomCharBlock = isViewBlockRandomCharacter ? <RandomChar gotData={this.gotService}/> : null;
+
         return (
             <>
                 <Container>
                     <Header isLookChar={isViewBlockRandomCharacter} onRandomCharacter={hideRandomChar}/>
                 </Container>
                 <Container>
-                    <CharacterPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
-                    <BooksPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
-                    <HousesPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
+                    <Row>
+                        <Col lg={{size: 5, offset: 0}}>
+                            {RandomCharBlock}
+                        </Col>
+                    </Row>
+                    <CharacterPage gotData={this.gotService}/>
+                    <BooksPage gotData={this.gotService}/>
+                    <HousesPage gotData={this.gotService}/>
                 </Container>
             </>
         );
