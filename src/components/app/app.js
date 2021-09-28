@@ -1,30 +1,37 @@
 import React, {Component} from 'react';
 import Header from '../header';
-import styled from "styled-components";
-import CharacterPage from "../characterPage";
+import CharacterPage from "../pages/characterPage";
+import {Container} from "./styles";
+import {GotService} from "../../services/gotSerivce";
+import {Col, Row} from "reactstrap";
+import ItemList from "../../shared/itemList";
+import ItemDetails from "../../shared/itemDetails";
+import BooksPage from "../pages/booksPage";
+import HousesPage from "../pages/housesPage";
 
 export default class App extends Component {
+    gotService = new GotService();
+
     state = {
         isLookBlockRandomCharacter: false
     };
 
     render() {
-        let {isLookBlockRandomCharacter} = this.state;
-        const Container = styled.div`
-          position: relative;
-          padding: 0 24px;
-        `
+        let {isViewBlockRandomCharacter} = this.state;
+
         const hideRandomChar = () => {
-            this.setState({isLookBlockRandomCharacter: !isLookBlockRandomCharacter});
+            this.setState({isViewBlockRandomCharacter: !isViewBlockRandomCharacter});
         }
+
         return (
             <>
                 <Container>
-                    <Header isLookChar={isLookBlockRandomCharacter} onRandomCharacter={hideRandomChar}/>
+                    <Header isLookChar={isViewBlockRandomCharacter} onRandomCharacter={hideRandomChar}/>
                 </Container>
                 <Container>
-                    <CharacterPage isLookBlockRandomCharacter={isLookBlockRandomCharacter}
-                                   selectChar={this.selectChar}/>
+                    <CharacterPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
+                    <BooksPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
+                    <HousesPage isLookBlockRandomCharacter={isViewBlockRandomCharacter} gotData={this.gotService}/>
                 </Container>
             </>
         );
