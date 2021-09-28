@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {Col, Row} from "reactstrap";
 import ItemList from "../../../shared/itemList";
 import ItemDetails, {Field} from "../../../shared/itemDetails";
-import RandomChar from "../../randomChar";
 import ErrorMessage from "../../../shared/errorMessage";
 import InfoRowBlock from "../../../shared/infoRowBlock";
 
@@ -21,10 +19,10 @@ export default class CharacterPage extends Component {
     }
 
     render() {
-        const {isLookBlockRandomCharacter, gotData} = this.props;
-        const RandomCharBlock = isLookBlockRandomCharacter ? <RandomChar gotData={gotData}/> : null;
+        const {selectCharId, isError} = this.state;
+        const {gotData} = this.props;
 
-        if (this.state.isError) {
+        if (isError) {
             return <ErrorMessage errorText={'Произошла ошибка при загрузке данных'}/>
         }
 
@@ -35,8 +33,8 @@ export default class CharacterPage extends Component {
         );
 
         const itemDetails = (
-            <ItemDetails gotData={this.state.selectCharId ? gotData.getCharacter(this.state.selectCharId) : null}
-                         itemId={this.state.selectCharId}>
+            <ItemDetails gotData={selectCharId ? gotData.getCharacter(selectCharId) : null}
+                         itemId={selectCharId}>
                 <Field field={'gender'} label={'Gender'}/>
                 <Field field={'born'} label={'Born'}/>
                 <Field field={'died'} label={'Died'}/>
@@ -46,11 +44,6 @@ export default class CharacterPage extends Component {
 
         return (
             <>
-                <Row>
-                    <Col lg={{size: 5, offset: 0}}>
-                        {RandomCharBlock}
-                    </Col>
-                </Row>
                 <InfoRowBlock leftBlock={itemList} rightBlock={itemDetails}/>
             </>
         );
