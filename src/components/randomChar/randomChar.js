@@ -1,57 +1,8 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Spinner} from "../../shared/spinner/Spinner";
 import ErrorMessage from "../../shared/errorMessage";
 import {RandomBlock} from "./styles";
 import {GotService} from "../../services/gotSerivce";
-
-export default class RandomChar extends Component {
-    gotService = new GotService();
-
-    state = {
-        char: null,
-        isLoading: true,
-        isError: false
-    }
-
-    componentDidMount() {
-        this.updateChar();
-        this.timer = setInterval(() => {
-            this.updateChar();
-        }, 5000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    onCharLoaded = (char) => {
-        this.setState({char});
-        this.setState({isLoading: false});
-    }
-
-    onError = () => {
-        this.setState({isError: true, isLoading: false});
-    }
-
-    updateChar() {
-        const id = Math.floor(Math.random() * 140 + 10);
-        this.gotService.getCharacter(id).then(this.onCharLoaded).catch(this.onError);
-    }
-
-    render() {
-        const {char, isLoading, isError} = this.state;
-        const errorMessage = isError ? <ErrorMessage errorText={'Error loading random character'}/> : null;
-        const spinner = isLoading ? <Spinner/> : null;
-        const content = !(isLoading || isError) ? <RandomContent char={char}/> : null;
-        return (
-            <RandomBlock className="rounded">
-                {spinner}
-                {errorMessage}
-                {content}
-            </RandomBlock>
-        );
-    }
-};
 
 const RandomContent = ({char}) => {
     const {name, gender, born, died, culture} = char;
@@ -79,3 +30,49 @@ const RandomContent = ({char}) => {
         </>
     );
 }
+
+export default function RandomChar() {
+    const gotService = new GotService();
+
+    const [char, setRandomChar] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+    const [isError, setError] = useState(false);
+
+    const errorMessage = isError ? <ErrorMessage errorText={'Error loading random character'}/> : null;
+    const spinner = isLoading ? <Spinner/> : null;
+    const content = !(isLoading || isError) ? <RandomContent char={char}/> : null;
+
+    useEffect(() => {
+        updateChar();
+        const timer = setInterval(() => {
+            updateChar();
+        }, 5000);
+
+        return () => {
+            clearInterval(timer)
+        }
+    }, []);
+
+    const onCharLoaded = (char) => {
+        setRandomChar(char);
+        setLoading(false);
+    }
+
+    const onError = () => {
+        setLoading(false);
+        setError(true);
+    }
+
+    const updateChar = () => {
+        const id = Math.floor(Math.random() * 140 + 10);
+        gotService.getCharacter(id).then(onCharLoaded).catch(onError);
+    }
+
+    return (
+        <RandomBlock className="rounded">
+            {spinner}
+            {errorMessage}
+            {content}
+        </RandomBlock>
+    );
+};
