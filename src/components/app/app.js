@@ -1,23 +1,24 @@
 import React, {Component} from 'react';
 import Header from '../header';
 import CharacterPage from "../pages/characterPage";
-import {Container, MainPage} from "./styles";
+import {Container} from "./styles";
 import {Col, Row} from "reactstrap";
 import BooksPage from "../pages/booksPage";
 import HousesPage from "../pages/housesPage";
 import RandomChar from "../randomChar";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
+import ErrorPage from "../pages/errorPage";
 import BooksItem from "../pages/booksPage/booksItem";
-import ErrorPage from "../pages/ErrorPage";
 import './app.css'
+import MainPage from "../pages/mainPage";
 
 export default class App extends Component {
     state = {
-        isLookBlockRandomCharacter: true
-    };
+        isLookBlockRandomCharacter: false
+    }
 
     render() {
-        let {isLookBlockRandomCharacter} = this.state;
+        const {isLookBlockRandomCharacter} = this.state;
 
         const hideRandomChar = () => {
             this.setState({isLookBlockRandomCharacter: !isLookBlockRandomCharacter});
@@ -39,7 +40,7 @@ export default class App extends Component {
                         </Row>
                         <Switch>
                             <Route path={'/'} exact>
-                                <MainPage>Welcome to GoT page!</MainPage>
+                                {MainPage(isLookBlockRandomCharacter)}
                             </Route>
                             <Route path={'/characters'} component={CharacterPage}/>
                             <Route path={'/houses'} component={HousesPage}/>

@@ -1,32 +1,39 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {HeaderBlock, HeaderLinks, HeaderTitle} from "./styles";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import logo from "./logo.png"
+import './style.css'
 
-export default class Header extends Component {
-    render() {
-        const {onRandomCharacter, isLookChar} = this.props;
-        return (
-            <HeaderBlock>
-                <HeaderTitle>
-                    <Link to={'/'}>
-                        Game of Thrones DB
-                    </Link>
-                </HeaderTitle>
-                <HeaderLinks>
-                    <li>
-                        <button type={'button'} onClick={onRandomCharacter}>{isLookChar ? 'Hide' : 'Look'} random character</button>
-                    </li>
-                    <li>
-                        <Link to={'/characters'}>Characters</Link>
-                    </li>
-                    <li>
-                        <Link to={'/houses'}>Houses</Link>
-                    </li>
-                    <li>
-                        <Link to={'/books/'}>Books</Link>
-                    </li>
-                </HeaderLinks>
-            </HeaderBlock>
-        );
+export default function Header({onRandomCharacter, isLookChar}) {
+    const locationPath = useLocation();
+
+    const classActive = (path) => {
+        return locationPath.pathname.match(path) ? 'active' : '';
     }
+
+    return (
+        <HeaderBlock>
+            <HeaderTitle>
+                <Link to={'/'}>
+                    <img src={logo} alt="logo"/>
+                </Link>
+            </HeaderTitle>
+            <HeaderLinks>
+                <li>
+                    <button type={'button'} onClick={onRandomCharacter}>{isLookChar ? 'Hide' : 'Look'} random
+                        character
+                    </button>
+                </li>
+                <li className={classActive('/characters')}>
+                    <Link to={'/characters'}>Characters</Link>
+                </li>
+                <li className={classActive('/houses')}>
+                    <Link to={'/houses'}>Houses</Link>
+                </li>
+                <li className={classActive('/books/')}>
+                    <Link to={'/books/'}>Books</Link>
+                </li>
+            </HeaderLinks>
+        </HeaderBlock>
+    );
 }
