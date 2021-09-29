@@ -19,7 +19,7 @@ export default function MainPage(isOpenRandomBlock) {
                     <img src={imgHouses} alt="houses"/>
                     <p>Houses</p>
                 </Link>
-                <Link to={'/books'}>
+                <Link to={'/books/'}>
                     <img src={imgBooks} alt="books"/>
                     <p>Books</p>
                 </Link>
